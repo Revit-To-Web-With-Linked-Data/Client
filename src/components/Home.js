@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Room from './Room';
 
 const Home = () => {
     const [name, setName] = useState('Peter');
+    const [room, setRoom] = useState([]);
 
     // Force credentials to every Axios request
     const instance = axios.create({
@@ -11,17 +13,21 @@ const Home = () => {
     });
 
     useEffect(() => {
-        getAllProjectsByUser();
+        getAllRooms();
         // setName(newName)
     }, []);
 
-    const getAllProjectsByUser = () => {
+    const getAllRooms = () => {
         return instance
             .get('/')
             .then((response) => {
-            console.log(JSON.stringify(response.data));
+                console.log(JSON.stringify(response.data));
+                const rooms = [];
+                for (let room in response.data['@graph']) {
+                    rooms.push(response.data['@graph'][room]['@id']);
+                }
+                setRoom(rooms);
 
-                setName("Balo");
                 // setName("Mamooooo")
             })
             .catch((err) => {
@@ -31,7 +37,20 @@ const Home = () => {
     // const naming = () => {
 
     // };
-    return <div className='Home-div'>{name} </div>;
+    return (
+        <div>
+            <thead>
+                <tr>
+                    <th>List of rooms</th>
+                </tr>
+            </thead>
+            <tbody>
+                {room.map((todo, idx) => (
+                    <Room key={idx} rooms={todo} />
+                ))}
+            </tbody>
+        </div>
+    );
 };
 
 export default Home;
