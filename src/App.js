@@ -1,18 +1,23 @@
 
-import './App.css';
+//import './App.css';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Home from './components/Home';
-const App=()=> {
-    const [name, setName] = useState({ firstName: '', lastName: '' });
+import FlowMovingDeviceTable from './components/FlowMovingDeviceTable';
+import ValidationTable from './components/ValidationTable';
+import ValidationOverviewTable from './components/ValidationOverviewTable';
 
-    // setName({firstName: "John", lastName: "Peterson"});
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const App=()=> {
+  
 
     return (
         <div className='App'>
             <Router>
                 <Routes>
-                    <Route exact path='/' element={<Home />} />
+                    <Route path='/flowMovingDeviceTable' element={<FlowMovingDeviceTable />} />
+                    <Route path='/validationTable' element={<ValidationTable />} />
+                    <Route path='/validationOverviewTable' element={<ValidationOverviewTable />} />
                 </Routes>
             </Router>
         </div>
