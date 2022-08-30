@@ -1,0 +1,973 @@
+<!doctype html>
+<html>
+
+<!-- 
+
+TODO 
+1. Tilføj noget om K4A
+2. Fyld mere tekst på timeline
+3. Tilføj lecture notes 
+
+-->
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>BuildSim Nordic 2022</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/mhra.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+	<!-- Custom styles -->
+	<style>
+		.two-col {
+			display: flex;
+			height: 100vh;
+		}
+
+		.col {
+			flex: 1;
+			padding: 50px;
+		}
+
+		.footer-left {
+			position: absolute;
+			bottom: 27px;
+			left: 80px;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			flex-direction: row;
+			gap: 10px;
+			align-content: flex-start;
+			align-items: center;
+		}
+
+		.footer-left img {
+			height: 2vh;
+		}
+
+		.box {
+			background-color: rgba(255, 255, 255, 0.5);
+			border-top: 1px solid black;
+			border-bottom: 1px solid black;
+			font-size: 1em !important;
+			color: black;
+			padding: 1vh;
+		}
+
+		.box-top-left {
+			position: absolute;
+			left: 0vw;
+			top: -30vh;
+			background-color: rgba(255, 255, 255, 0.5);
+			border-top: 1px solid black;
+			border-bottom: 1px solid black;
+			font-size: 1em !important;
+			color: black;
+			padding: 1vh;
+		}
+
+		.top-right {
+			position: static;
+			right: 0vw;
+			top: 0vh;
+			bottom: 40vh;
+			z-index: 10;
+			background-color: red;
+		}
+
+		.logo-container {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			margin-top: 5vh;
+			gap: 40px;
+		}
+
+		.logo-container img {
+			height: 50px;
+		}
+
+
+		.assumption1 {
+			display: flex;
+			justify-content: center;
+		}
+
+		.assumption2 {
+			display: flex;
+			flex-direction: column;
+			width: 500px;
+		}
+
+		.assumption2 div:first-of-type {
+			border-bottom: 2px solid black
+		}
+
+		.footnote {
+			display: flex;
+			justify-content: end;
+			font-size: 15px;
+			height: 50;
+		}
+
+		.ruleinter {
+			position: fixed;
+			height: 250px;
+			width: 250px;
+			bottom: 250px;
+			right: 700px;
+			border: 5px dotted grey;
+		}
+
+		.buildingprep {
+			position: fixed;
+			height: 250px;
+			width: 250px;
+			bottom: 250px;
+			right: 450px;
+			border: 5px dotted grey;
+		}
+
+		.ruleexec {
+			position: fixed;
+			height: 250px;
+			width: 250px;
+			bottom: 250px;
+			right: 200px;
+			border: 5px dotted grey;
+		}
+
+		.reporting {
+			position: fixed;
+			height: 250px;
+			width: 250px;
+			bottom: 250px;
+			right: -20px;
+			border: 5px dotted grey;
+		}
+
+		.case1 {
+			position: fixed;
+			height: 100px;
+			width: 425px;
+			bottom: 250px;
+			right: 525px;
+			border: 4px dotted blue;
+			opacity: 0.5;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			color: blue;
+			justify-content: center;
+			font-weight: bold;
+
+		}
+
+		.case2 {
+			position: fixed;
+			height: 150px;
+			width: 200px;
+			bottom: 350px;
+			right: 475px;
+			border: 4px dotted blue;
+			opacity: 0.5;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			color: blue;
+			justify-content: center;
+			font-weight: bold;
+
+		}
+
+		.case3 {
+			position: fixed;
+			height: 250px;
+			width: 400px;
+			bottom: 250px;
+			right: 275px;
+			border: 4px dotted blue;
+			opacity: 0.9;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			color: blue;
+			justify-content: center;
+			font-weight: bold;
+
+		}
+
+		.case4 {
+			position: fixed;
+			height: 100px;
+			width: 110px;
+			bottom: 325px;
+			right: 165px;
+			border: 4px dotted blue;
+			opacity: 0.9;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			color: blue;
+			justify-content: center;
+			font-weight: bold;
+
+		}
+
+		.case5 {
+			position: fixed;
+			height: 110px;
+			width: 110px;
+			bottom: 130px;
+			right: 300px;
+			border: 4px dotted blue;
+			opacity: 0.9;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			color: blue;
+			justify-content: center;
+			font-weight: bold;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div class="reveal">
+
+		<!-- Captions -->
+		<cap
+			style="position: absolute; bottom: 12vh; left: 0px; width: 100%; z-index:500; text-align: center; font-size: 1.9vw; font-style: italic; color: #65625e">
+		</cap>
+
+		<!-- Footer left -->
+		<div class="footer-left">
+			<img src="./static/images/logos/niras.svg" alt="">
+			<img src="./static/images/logos/COWI.svg" alt="">
+			<img src="./static/images/logos/DTU-small.svg" alt="">
+			<img src="./static/images/logos/ibpsa_nordic.png" alt="">
+		</div>
+
+		<!-- Slides -->
+		<div class="slides">
+
+			<section>
+				<h1>Introduction to Linked Building Data</h1>
+				<div class="logo-container">
+					<img src="./static/images/logos/niras.svg" alt="">
+					<img src="./static/images/logos/COWI.svg" alt="">
+					<img src="./static/images/logos/DTU-small.svg" alt="">
+					<img src="./static/images/logos/ibpsa_nordic.png" alt="">
+				</div>
+			</section>
+
+			<section>
+				<h1>Agenda</h1>
+				<ul>
+					<li class="fragment fade-up">Current state of BIM and how to improve it</li>
+					<li class="fragment fade-up">Towards a modular and extendable data representation</li>
+					<li class="fragment fade-up">Demos</li>
+				</ul>
+			</section>
+
+
+			<!-- Fly-in. Challenges -->
+			<section>
+
+				<section>
+					<h1>Current state of BIM and how to improve it</h1>
+				</section>
+
+				<section>
+					<h4>"Our industry works in a document-centric manner rather than a data-centric one"</h4>
+					<aside class="notes">
+						- Exchange of files rather than data integration<br>
+						- A bim is one database - we need multiple
+					</aside>
+				</section>
+
+				<section data-background-image="./static/images/HeatLossCalc-01.svg" data-background-size="80%">
+				</section>
+
+				<section data-background-image="./static/images/HeatLossCalc-02.svg" data-background-size="80%">
+				</section>
+
+				<section data-background-image="./static/images/HeatLossCalc-03.svg" data-background-size="80%">
+				</section>
+
+				<section data-background-image="./static/images/HeatLossCalc-04.svg" data-background-size="80%">
+				</section>
+
+				<section data-background-image="./static/images/HeatLossCalc-05.svg" data-background-size="80%">
+				</section>
+
+				<section data-background-image="./static/images/HeatLossCalc-07.svg" data-background-size="80%">
+				</section>
+
+				<section>
+					<h4 class="center">"Exchange of BIM-data as files makes data integration impossible"</h4>
+					<aside class="notes">
+						- BCF as an example<br>
+						- You cannot exchange issues in a file. How about the ones you resolve in the mean time?
+					</aside>
+				</section>
+
+				<section data-background-image="./static/images/monolitic-01.svg" data-background-size="70%"></section>
+				<section data-background-image="./static/images/monolitic-02.svg" data-background-size="70%"></section>
+
+				<!-- <section data-background-image="./static/images/BIM-islands.svg" data-background-size="70%"></section> -->
+
+				<section>
+					<h4 class="center">"We need to switch from Today's monolitic nature of BIM to a network based one"
+					</h4>
+					<aside class="notes">
+						- Fine that the different BIM systems rely on an integrated data model, but they should be able
+						to exchange resulting geometry and derived properties
+					</aside>
+				</section>
+
+				<section data-background-image="./static/images/bs-wall-01.svg" data-background-size="70%"></section>
+				<section data-background-image="./static/images/bs-wall-02.svg" data-background-size="70%"></section>
+				<section data-background-image="./static/images/bs-wall-03.svg" data-background-size="70%"></section>
+
+			</section>
+
+			<section>
+
+				<section>
+					<h4 class="center">So how do we do this?</h4>
+				</section>
+
+				<section>
+					<h4 class="center">The idea is to use the existing infrastructure of the World Wide Web to mediate a
+						distributed, network-based BIM</h4>
+				</section>
+
+				<section data-background-image="./static/images/web1-01.svg">
+					<h4 style="margin-top: 30vh;" class="box">Web of documents</h4>
+				</section>
+
+				<section data-background-image="./static/images/web3-01.svg">
+					<h4 style="margin-top: 30vh;" class="box">Web of data</h4>
+				</section>
+
+				<section>
+					<h4 class="center">Data is stored and hosted by the stakeholder who generated it and is responsible
+						for it</h4>
+				</section>
+
+				<section>
+					<h4 class="center">Data can be shared with authenticated people or be made publicly available</h4>
+				</section>
+
+				<section>
+					<h4 class="center">The model data can be extended with Linked Open Data (product- and material
+						properties, IoT, GIS)</h4>
+				</section>
+
+				<section>
+					<h4 class="center">Even the schemas are distributed, and can therefore extend one another</h4>
+				</section>
+
+				<section data-background-image="./static/images/CWA.svg" data-background-size="90%">
+					<h4 style="margin-top: 50vh;" class="box">Current situation: Open standards in isolated closed
+						worlds</h4>
+				</section>
+
+				<section data-background-image="./static/images/OWA_en.svg" data-background-size="90%">
+					<h4 style="margin-top: 50vh;" class="box">Linked data benefit: Standards use, extend and refer to
+						one another</h4>
+				</section>
+
+			</section>
+
+			<section>
+				<section>
+					<h1>Increasing Building Information</h1>
+
+					<img src="./static/images/alikuc/increasing.png" alt="">
+
+				</section>
+				<section>
+					<h4 class="center">How do we ensure the data quality in BIM models?</h4>
+				</section>
+				<section>
+					<h4 class="center">The 4-step Compliance Checking Method</h4>
+					<div><img src="./static/images/alikuc/bimquality.jpg" alt=""></div>
+					<div class="footnote">
+						C. Eastman, J. min Lee, Y. suk Jeong, J. kook Lee, Automatic rule-based checking of
+						building designs (2009)
+					</div>
+				</section>
+				<section>
+					<h2>Rule interpretation</h2>
+					<h4 class="center"><strong>Definition</strong>: Human-readable rules are converted into a
+						machine-interpretable format, also known as the rule model.
+					</h4>
+				</section>
+				<section>
+					<h2>Building model preparation</h2>
+					<h4 class="center"><strong>Definition</strong>: Building information is converted into a
+						machine-readable format, also known as the data model.
+					</h4>
+				</section>
+				<section>
+					<h2>Rule execution</h2>
+					<h4 class="center"><strong>Definition</strong>: The data model is validated against the rule model.
+					</h4>
+				</section>
+				<section>
+					<h2>Reporting</h2>
+					<h4 class="center"><strong>Definition</strong>: A validation report describing whether the data
+						model has passed or violated any constraints.
+					</h4>
+				</section>
+				<section>
+					<h4 class="center"> Lets try to implement the validation method to the HVAC domain in a semantic web
+						context!
+					</h4>
+				</section>
+				<section>
+					<h3>The Case</h3>
+					<div><img src="./static/images/alikuc/process-diagram.png" alt=""></div>
+					<div class="case1 fragment current-visible">Building model Preperation</div>
+					<div class="case2  fragment current-visible ">Rule interpretation</div>
+					<div class="case3  fragment current-visible ">Rule execution</div>
+					<div class="fragment">
+						<div class="case4">Reporting</div>
+						<div class="case5">Reporting</div>
+					</div>
+
+				</section>
+			</section>
+			<section>
+				<section>
+					<div><img src="./static/images/alikuc/bimquality.jpg" alt=""></div>
+					<div class="footnote">
+						C. Eastman, J. min Lee, Y. suk Jeong, J. kook Lee, Automatic rule-based checking of
+						building designs (2009)
+					</div>
+					<div class="ruleinter"></div>
+				</section>
+				<section>
+					<h3>A semantic and expressive rule language</h3>
+				</section>
+				<!-- <section>
+					Why don't we interpret rules using OWL as we do for everything else?
+				</section>
+				<section>
+					<div>
+						<div class="assumption1">
+							<div class="assumption2">
+								<div>Open World Assumption</div>
+								<div>OWL</div>
+								<div style="padding-top: 40px ;font-style: italic;">"A car can have 4 wheels"</div>
+							</div>
+							<div style="width: 100px"></div>
+							<div class="assumption2">
+								<div>Close World Assumption</div>
+								<div>SHACL</div>
+								<div style="padding-top: 40px ;font-style: italic;">"A car <strong>must</strong> have 4
+									wheels"</div>
+							</div>
+						</div>
+					</div>
+					<div class="r-stack" style="height: 400px; width: 1000px; object-fit: cover;">
+						<img class="fragment  current-visible fade-out" data-fragment-index="0"
+							src="./static/images/alikuc/300ppi/assumptionPic1.png" alt="">
+						<img class="fragment current-visible" data-fragment-index="1"
+							src="./static/images/alikuc/300ppi/assumptionPic2.png" alt="">
+						<img class="fragment current-visible" data-fragment-index="2"
+							src="./static/images/alikuc/300ppi/assumptionPic3.png" alt="">
+						<img class="fragment current-visible" data-fragment-index="3"
+							src="./static/images/alikuc/300ppi/assumptionPic4.png" alt="">
+						<img class="fragment" src="./static/images/alikuc/300ppi/assumptionPic5.png" alt="">
+					</div>
+				</section> -->
+				<section>
+					<div><img src="./static/images/alikuc/shacl.jpg" alt=""></div>
+				</section>
+				<section>
+					<h4 class="center">Expressing an HVAC rules explicitly</h4>
+					<pre>
+						<code class="hljs turtle" data-line-numbers="|4|6|7-11" data-trim data-noescape>
+								fsosh:PipeComponsition
+								a sh:NodeShape;
+								sh:nodeKind sh:IRI ;
+								sh:targetClass fpo:Pipe ;
+								sh:property [
+									sh:path fso:hasPort ;
+									sh:nodeKind sh:IRI ;
+									sh:class fpo:Port ;
+									sh:minCount 2;
+									sh:maxCount 2;
+									sh:message "A pipe must have exactly two flow ports"
+									]; 
+								//... the shape continues
+							
+						</code></pre>
+				</section>
+				<section>
+					<h4 class="center">Expressing an HVAC rules implicitly</h4>
+					<pre>
+						<code class="hljs turtle" data-line-numbers="|4|7|10-22|15|16|17|18|19|20|21" data-trim data-noescape>
+								fsosh:PipeMaxPressureDrop
+								a sh:NodeShape;
+								sh:nodeKind sh:IRI ;
+								sh:targetClass fpo:Pipe ;
+								sh:sparql [
+								a sh:sh:SPARQLConstraint ;
+								sh:message "The pressure drop for a pipe shall not exceed 100 Pa/m";
+								sh:prefixes (fpo: fso: inst:) ;
+								sh:select """
+								PREFIX fso: http://w3id.org/fso#
+								PREFIX fpo: http://w3id.org/fpo# 
+								PREFIX inst: https//example.com/inst#
+								SELECT ?this ?value
+								WHERE {
+									?this a fpo:Pipe .
+									?this fpo:length/fpo:value ?length .
+									?this fso:hasPort ?port .
+									?port fpo:flowDirection/fpo:value "Out" .
+									?port fpo:pressureDrop/fpo:value ?pressureDrop .
+									BIND ((?pressureDrop / ?length) AS ?value) .
+									FILTER (?value > 100)
+								} 
+								""" ] .
+							
+						</code></pre>
+				</section>
+				<section>
+					<h4 class="center">Expressing an HVAC rules by inference</h4>
+					<pre>
+						<code data-trim data-noescape class="hljs turtle" data-line-numbers="|3|6|9-28|11|12|13|14|15|16-26|9">
+								fsosh:PipeSizingPex
+								sh:NodeShape ;
+								sh:targetClass fpo:Pipe ;
+								sh:rule [
+									a sh:SPARQLRule ;
+									sh:condition fsosh:PipeMaxPressureDrop ;
+									sh:prefixes (fpo: fso: ex: ) ;
+									sh:construct """
+										CONSTRUCT {?diameter fpo:inferredValue ?newDiameter}
+										WHERE {
+											?this a fpo:Pipe .
+											?this fpo:materialType/fpo:value "PEX" .
+											?this fso:hasPort ?port .
+											?port fpo:outerDiameter ?diameter .
+											?diameter fpo:value ?actualOuterDiameter .
+											BIND (
+												IF(?actualOuterDiameter = 0.012, 0.015,
+												IF(?actualOuterDiameter = 0.015, 0.018,
+												IF(?actualOuterDiameter = 0.018, 0.020,
+												IF(?actualOuterDiameter = 0.020, 0.022,
+												IF(?actualOuterDiameter = 0.022, 0.028,
+												IF(?actualOuterDiameter = 0.028, 0.032,
+												IF(?actualOuterDiameter = 0.032, 0.040,
+												IF(?actualOuterDiameter = 0.040, 0.050,
+												?actualOuterDiameter
+											)))))))) AS ?newDiameter)
+										}
+									"""] .
+							
+						</code></pre>
+				</section>
+			</section>
+
+
+			<section>
+				<section>
+					<div><img src="./static/images/alikuc/bimquality.jpg" alt=""></div>
+					<div class="footnote">
+						C. Eastman, J. min Lee, Y. suk Jeong, J. kook Lee, Automatic rule-based checking of
+						building designs (2009)
+					</div>
+					<div class="buildingprep"></div>
+				</section>
+				<section>
+					<h3>The BIM model</h3>
+				</section>
+				<section>
+					<div><img src="./static/images/alikuc/BIMmodel.jpg" alt=""></div>
+
+				</section>
+				<section>
+					<h3>The Parser</h3>
+				</section>
+				<section>
+					<pre>
+						<code data-trim data-noescape class="hljs c#" data-line-numbers="|2-4|5|9|10">
+			//Get all pipes
+			FilteredElementCollector pipeCollector = new FilteredElementCollector(doc);
+			ICollection<Element> pipes = pipeCollector.OfClass(typeof(Pipe)).ToElements();
+			List<Pipe> pipeList = new List<Pipe>();
+			foreach (Pipe component in pipeCollector){
+				Pipe w = component as Pipe;
+				
+				//Type
+				string componentID = component.UniqueId.ToString();
+				sb.Append($"inst:{componentID} a fpo:Pipe ." + "\n");
+			}
+			</code></pre>
+
+				</section>
+				<section>
+					<h3>The Data Model</h3>
+				</section>
+				<!-- <section>
+					<pre>
+																				<code data-trim data-noescape>
+																inst:3d9e74df-96ef-4b4d-8037-52c7e9eede41
+																rdf:type fpo:PressureDrop ;
+																fpo:unit "Pascal" ;
+																fpo:value 7.01453354891659e0 .
+
+																inst:b610fba7-ddd4-4a9e-bce1-10f7006b8a74
+																rdf:type fpo:FlowDirection ;
+																fpo:value "Out" .
+
+																inst:dc33b4fc-43c8-4150-80d7-d94a710bbf0d
+																rdf:type fpo:Angle ;
+																fpo:unit "Degree" ;
+																fpo:value 5.15353125588877e0 .
+
+																inst:1f40b32e-d90a-4cbb-8953-deeedcf76f7d
+																rdf:type fpo:FlowDirection ;
+																fpo:value "Out" .
+
+																inst:d2a288e3-00e6-488c-8b41-10b0c55555bc
+																rdf:type fpo:OuterDiameter ;
+																fpo:unit "Meter" ;
+																fpo:value 0.025e0 .
+
+																inst:91f28fac-59d5-4dca-8e67-bf2f4e43ff18
+																rdf:type fpo:FlowDirection ;
+																fpo:value "In" .
+
+																inst:d3443ff8-17df-4246-8e69-05a1ac4af2c6
+																rdf:type fpo:FlowDirection ;
+																fpo:value "In" .
+
+																inst:84318bcc-79e3-431e-9b3a-63b440846414
+																rdf:type fpo:OuterDiameter ;
+																fpo:unit "Meter" ;
+																fpo:value 0.2e0 .
+
+																inst:9b066918-4499-49ef-be44-0c67e9d437b8-0016431a-2
+																rdf:type fso:Port ;
+																fpo:flowDirection
+																inst:f94625d6-f90b-42f0-9bbc-1802c1becdb3 ;
+																fpo:outerDiameter
+																inst:2db66227-4cda-42a7-8035-00c105cc75e7 ;
+																fpo:pressureDrop
+																inst:ec8646b2-edef-4185-b95f-59de062938b1 ;
+																fso:returnsFluidTo
+																inst:98b42094-4ebd-4882-b7fb-379dd917857d-00116f6b-2 .
+</code></pre>
+				</section> -->
+				<section>
+					<h4>10319 facts</h4>
+					<div><img src="./static/images/alikuc/triples.JPG" alt=""></div>
+
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<div><img src="./static/images/alikuc/bimquality.jpg" alt=""></div>
+					<div class="footnote">
+						C. Eastman, J. min Lee, Y. suk Jeong, J. kook Lee, Automatic rule-based checking of
+						building designs (2009)
+					</div>
+					<div class="ruleexec"></div>
+				</section>
+				<section>
+					<div style=" object-fit: cover; display:flex; justify-content: center; position: fixed;
+			height: 300px;
+			width: 400px;
+			bottom: 250px;
+			right: 275px;"><img src="./static/images/alikuc/shaclengine.png" alt=""></div>
+
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<div><img src="./static/images/alikuc/bimquality.jpg" alt=""></div>
+					<div class="footnote">
+						C. Eastman, J. min Lee, Y. suk Jeong, J. kook Lee, Automatic rule-based checking of
+						building designs (2009)
+					</div>
+					<div class="reporting"></div>
+				</section>
+				<section>
+					<h3>Conforming validation report</h3>
+				</section>
+				<section>
+					<pre> <code data-trim data-noescape>
+					{
+					"@id": "_:b0",
+					"@type": "sh:ValidationReport",
+					"sh:conforms": true,
+					"@context": {
+						"conforms": {
+							"@id": "http://www.w3.org/ns/shacl#conforms",
+							"@type": "http://www.w3.org/2001/XMLSchema#boolean"
+						},
+					"rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+					"sh": "http://www.w3.org/ns/shacl#",
+					"xsd": "http://www.w3.org/2001/XMLSchema#",
+					"rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+						}
+					}
+				</code></pre>
+				</section>
+				<section>
+					<h3>Violating validation report</h3>
+				</section>
+				<section>
+					<pre> <code data-trim data-noescape>
+									{
+										{
+										"@graph": [
+										{
+										"@id": "_:b0",
+										"@type": "sh:ValidationReport",
+										"sh:conforms": false,
+										"result": [
+										"_:b1",
+										"_:b2"
+										]
+										},
+										{
+										"@id": "_:b1",
+										"@type": "sh:ValidationResult",
+										"focusNode": "inst:363b06c9-b642-4ae9-8377-2bc412234dc5-001450df",
+										"resultMessage": "A fan must have minimum/maximum two flow ports",
+										"resultPath": "fsosh:hasPort",
+										"resultSeverity": "sh:Violation",
+										"sourceConstraintComponent": "sh:MaxCountConstraintComponent",
+										"sourceShape": "_:b3"
+										},
+										{
+										"@id": "_:b2",
+										"@type": "sh:ValidationResult",
+										"focusNode": "inst:363b06c9-b642-4ae9-8377-2bc412234dc5-0014535a",
+										"resultMessage": "A fan must have minimum/maximum two flow ports",
+										"resultPath": "fsosh:hasPort",
+										"resultSeverity": "sh:Violation",
+										"sourceConstraintComponent": "sh:MaxCountConstraintComponent",
+										"sourceShape": "_:b3"
+										}
+										],
+										"@context": {
+										"conforms": {
+										"@id": "http://www.w3.org/ns/shacl#conforms",
+										"@type": "http://www.w3.org/2001/XMLSchema#boolean"
+										},
+										"result": {
+										"@id": "http://www.w3.org/ns/shacl#result",
+										"@type": "@id"
+										},
+										"resultPath": {
+										"@id": "http://www.w3.org/ns/shacl#resultPath",
+										"@type": "@id"
+										},
+										"sourceShape": {
+										"@id": "http://www.w3.org/ns/shacl#sourceShape",
+										"@type": "@id"
+										},
+										"resultMessage": {
+										"@id": "http://www.w3.org/ns/shacl#resultMessage"
+										},
+										"sourceConstraintComponent": {
+										"@id": "http://www.w3.org/ns/shacl#sourceConstraintComponent",
+										"@type": "@id"
+										},
+										"resultSeverity": {
+										"@id": "http://www.w3.org/ns/shacl#resultSeverity",
+										"@type": "@id"
+										},
+										"focusNode": {
+										"@id": "http://www.w3.org/ns/shacl#focusNode",
+										"@type": "@id"
+										},
+										"@vocab": "https://w3id.org/fso#",
+										"schema": "https://schema.org/",
+										"fso": "http://w3id.org/fso#",
+										"fpo": "http://w3id.org/fpo#",
+										"owl": "http://www.w3.org/2002/07/owl#",
+										"bot": "https://w3id.org/bot#",
+										"dce": "http://purl.org/dc/elements/1.1/",
+										"xsd": "http://www.w3.org/2001/XMLSchema#",
+										"voaf": "http://purl.org/vocommons/voaf#",
+										"rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+										"vcard": "http://www.w3.org/2006/vcard/ns#",
+										"dbo": "http://dbpedia.org/ontology/",
+										"ex": "https://ex/",
+										"sh": "http://www.w3.org/ns/shacl#",
+										"rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+										"xml": "http://www.w3.org/XML/1998/namespace",
+										"inst": "https://example.com/inst#",
+										"dcterms": "http://purl.org/dc/terms/",
+										"vann": "http://purl.org/vocab/vann/",
+										"dash": "http://datashapes.org/dash#",
+										"vs": "http://www.w3.org/2003/06/sw-vocab-status/ns#",
+										"foaf": "http://xmlns.com/foaf/0.1/"
+											}
+										}
+									</code></pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h3>We have the necessary information to calculate the flow rate and head of each flow moving
+						devices in the data model
+					</h3>
+				</section>
+				<section>
+					<div class="r-stack">
+						<div class="fragment current-visible" data-fragment-index="0">
+							<h4>PI-Diagram</h4>
+							<img src="./static/images/alikuc/pi-diagram.png" alt="">
+						</div>
+						<div class=" fragment current-visible" data-fragment-index="1">
+							<h4>Flow rate of an flow moving device</h4>
+							<img src="./static/images/alikuc/IBPSA-use-case-flow-rate.png" alt="">
+						</div>
+						<div class="fragment current-visible">
+							<h4>Head of an flow moving device</h4><img
+								src="./static/images/alikuc/IBPSA-use-case-head.png" alt="">
+						</div>
+
+					</div>
+				</section>
+
+				<section>
+					<h1>Case Demo</h1>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>A modular and extendable building representation</h2>
+				</section>
+
+				<!-- BOT -->
+				<section data-background-image="./static/images/BOT-papers.svg" data-background-size="80vw"
+					data-state="cap-bot3">
+					<h4 class="box">BOT: The Building Topology Ontology</h4>
+					<style>
+						.cap-bot3 cap:after {
+							content: "Rasmussen, M. H., Lefrançois, Maxime, Schneider, G. F., Pauwels, P. (2020). BOT: the Building Topology Ontology of the W3C Linked Building Data Group. Semantic Web Journal.";
+						}
+					</style>
+				</section>
+
+				<section data-background-image="./static/images/BOT-purpose-01.svg" data-background-size="80vw">
+				</section>
+
+				<section data-background-image="./static/images/BOT-purpose-02.svg" data-background-size="80vw">
+				</section>
+
+				<section data-background-image="./static/images/BOT-purpose-03.svg" data-background-size="80vw">
+				</section>
+
+				<section data-background-image="./static/images/BOT-content-01.svg" data-background-size="80vw"
+					data-background-position="50% 60%">
+					<h4 class="box-top-left">7 classes</h4>
+				</section>
+
+				<!-- BOT ZONE -->
+				<section>
+					<h4 class="center">bot:Zone</h4>
+				</section>
+
+				<section data-background-image="./static/images/BOT-Zones-02.svg" data-background-size="80vw">
+				</section>
+
+				<section data-background-image="./static/images/BOT-Zones-03.svg" data-background-size="80vw">
+				</section>
+
+				<!-- BOT ELEMENT -->
+				<section>
+					<h4 class="center">bot:Element</h4>
+				</section>
+
+				<section data-background-image="./static/images/BOT-Elements-01.svg" data-background-size="80vw">
+				</section>
+
+				<section data-background-image="./static/images/BOT-Elements-02.svg" data-background-size="80vw">
+				</section>
+
+				<section data-background-image="./static/images/BOT-Elements-03.svg" data-background-size="80vw">
+				</section>
+
+				<!-- BOT INTERFACE -->
+
+				<section>
+					<h4 class="center">bot:Interface</h4>
+				</section>
+
+				<section data-background-image="./static/images/BOT-Interfaces-01.svg" data-background-size="80vw">
+				</section>
+
+				<section data-background-image="./static/images/BOT-Interfaces-02.svg" data-background-size="80vw">
+				</section>
+
+				<section data-background-image="./static/images/BOT-Interfaces-03.svg" data-background-size="80vw">
+				</section>
+			</section>
+			<!-- <section data-background-image="./static/images/BOT-Interfaces-04.svg" data-background-size="80vw">
+				</section>
+
+				<section data-background-image="./static/images/BOT-Interfaces-05.svg" data-background-size="80vw">
+				</section> -->
+
+			<section data-background-image="./static/images/Pipe-Interfaces-01.svg" data-background-size="80vw">
+			</section>
+			<section data-background-image="./static/images/Pipe-Interfaces-02.svg" data-background-size="80vw">
+			</section>
+			<section data-background-image="./static/images/Pipe-Interfaces-03.svg" data-background-size="80vw">
+			</section>
+
+			</section>
+
+			<section>
+				<h1>Extending BOT</h1>
+			</section>
+
+			<section>
+				<h1>FSO</h1>
+			</section>
+
+
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.2/reveal.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.2/plugin/notes/notes.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.2/plugin/markdown/markdown.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.2/plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+		});
+	</script>
+
+</body>
+
+</html>

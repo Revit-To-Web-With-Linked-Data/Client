@@ -1,7 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const ValidationInstance = (props) => {
+const navigate = useNavigate();
+
+    const goToPage = (e) => {
+        e.preventDefault();
+
+        navigate(`/${props.validationReportItem.type}`);
+    }
     return (
-        <tr
+        <tr onClick={goToPage}
         // onClick={(e) => {
         //     e.preventDefault();
         //     window.location.href = `/api/projects/${props.projects._id}`;

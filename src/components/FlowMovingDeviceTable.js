@@ -3,32 +3,23 @@ import axios from 'axios';
 import FlowMovingDevice from './FlowMovingDevice';
 import Table from 'react-bootstrap/Table';
 
-const FlowMovingDeviceTable = () => {
-    const [flowMovingDevice, setFlowMovingDevice] = useState([]);
+const FlowMovingDeviceTable = (props) => {
     // Force credentials to every Axios request
     const instance = axios.create({
         withCredentials: true,
         baseURL: 'http://localhost:3500',
     });
 
+    console.log(props)
     useEffect(() => {
-        getAllFlowMovingDevices();
+
     }, []);
 
-    const getAllFlowMovingDevices = () => {
-        return instance
-            .get('/flowHeadTable')
-            .then((response) => {
-                setFlowMovingDevice(response.data);
-            })
-            .catch((err) => {
-                return err.response;
-            });
-    };
+ 
 
 
     return (
-        <Table striped bordered hover>
+        <Table striped bordered hover size='sm'>
             <thead>
                 <tr>
                     <th>Type</th>
@@ -38,7 +29,7 @@ const FlowMovingDeviceTable = () => {
                 </tr>
             </thead>
             <tbody>
-                {flowMovingDevice.map((todo, idx) => (
+                {props.flowMovingDevice.map((todo, idx) => (
                     <FlowMovingDevice key={idx} flowMovingDevices={todo} />
                 ))}
             </tbody>
