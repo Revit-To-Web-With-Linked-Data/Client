@@ -16,15 +16,33 @@ const ValidationTable = () => {
     });
 
     useEffect(() => {
-                       getValidationReport();
-
+        getValidationReport();
     }, []);
 
     const getValidationReport = () => {
         return instance
             .get('/validationOverviewGraph')
             .then((response) => {
-                console.log(JSON.stringify(response.data.result));
+                console.log(JSON.stringify(response.data.result), "XXXXXXXX");
+                setValidationReport(response.data.result);
+                console.log(response.data.result[response.data.result.length - 1].amount);
+                if (response.data.result[response.data.result.length - 1].amount == 0) {
+                    setbuttonClickable(false);
+                }
+                if (response.data.result[response.data.result.length - 1].amount > 0) {
+                    setbuttonClickable(true);
+                }
+            })
+            .catch((err) => {
+                return err.response;
+            });
+    };
+
+    const hydraulicCalculation = () => {
+        return instance
+            .get('/hydraulicCalculation')
+            .then((response) => {
+                console.log(JSON.stringify(response.data),"YYYYYYYYYYY");
                 setValidationReport(response.data.result);
                 console.log(response.data.result[response.data.result.length - 1].amount);
                 if (response.data.result[response.data.result.length - 1].amount == 0) {
@@ -40,12 +58,11 @@ const ValidationTable = () => {
     };
 
     const refreshPage = (e) => {
-                getValidationReport();
+        getValidationReport();
     };
 
     const onRowClick = (row) => {
         console.log(`clicked on row with index: ${Object.values(row.currentTarget)}`);
-        
     };
 
     const clearModel = () => {
@@ -59,20 +76,19 @@ const ValidationTable = () => {
             });
     };
 
-
     const getAllFlowMovingDevices = () => {
-           console.log("Hi")
-           return instance
-               .get('/flowHeadTable')
-               .then((response) => {
-                   setFlowMovingDevice(response.data);
-               })
-               .catch((err) => {
-                   return err.response;
-               });
+        console.log('Hi');
+        return instance
+            .get('/flowHeadTable')
+            .then((response) => {
+                setFlowMovingDevice(response.data);
+            })
+            .catch((err) => {
+                return err.response;
+            });
     };
-    
-       const clearViolations = () => {
+
+    const clearViolations = () => {
         setValidationReport([
             { type: 'HeatExchanger', amount: 0 },
             { type: 'Transition', amount: 0 },
@@ -92,11 +108,9 @@ const ValidationTable = () => {
             { type: 'System', amount: 0 },
             { type: 'Total', amount: 0 },
         ]);
-           
-           
-                setbuttonClickable(false);
-            
-       };
+
+        setbuttonClickable(false);
+    };
 
     return (
         <div>
@@ -138,6 +152,7 @@ const ValidationTable = () => {
                 </Table>
                 <div onClick={clearModel}>Clear model</div>
                 <div onClick={clearViolations}>Solve all violations</div>
+                <div onClick={hydraulicCalculation}>Perform hydraulicCalculation</div>
             </div>
             <div>
                 <div
@@ -154,6 +169,7 @@ const ValidationTable = () => {
                         Design
                     </Button>
                 </div>
+
                 <div>
                     <FlowMovingDeviceTable flowMovingDevice={flowMovingDevice} />
                 </div>
