@@ -7,7 +7,7 @@ const navigate = useNavigate();
     const goToPage = (e) => {
         e.preventDefault();
 
-        navigate(`/${props.validationReportItem.type}`);
+        navigate(`/${props.validationReportItem.type}`+"1");
     }
     return (
         <tr onClick={goToPage}

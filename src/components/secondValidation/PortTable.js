@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ValidationInstance from './ValidationInstance';
+import ValidationInstance from '../ValidationInstance';
 import Table from 'react-bootstrap/Table';
 
 const PortTable = () => {
@@ -17,10 +17,10 @@ const PortTable = () => {
 
     const getValidationReport = () => {
         return instance
-            .get('/validationGraph')
+            .get('/hydraulicCalculation')
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                setValidationReport(response.data.shaclObject.Port)
+                setValidationReport(response.data.shaclObject.Port);
             })
             .catch((err) => {
                 return err.response;

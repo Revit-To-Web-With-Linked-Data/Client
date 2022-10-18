@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ValidationInstance from './ValidationInstance';
+import ValidationInstance from '../ValidationInstance';
 import Table from 'react-bootstrap/Table';
 
-const TransitionTable = () => {
+const FlowTable = () => {
     const [validationReport, setValidationReport] = useState([]);
     // Force credentials to every Axios request
     const instance = axios.create({
@@ -12,7 +12,7 @@ const TransitionTable = () => {
     });
 
     useEffect(() => {
-        // getValidationReport();
+        getValidationReport();
     }, []);
 
     const getValidationReport = () => {
@@ -20,7 +20,7 @@ const TransitionTable = () => {
             .get('/validationGraph')
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                setValidationReport(response.data.shaclObject.Transition)
+                setValidationReport(response.data.shaclObject.Flow);
             })
             .catch((err) => {
                 return err.response;
@@ -50,4 +50,4 @@ const TransitionTable = () => {
     );
 };
 
-export default TransitionTable;
+export default FlowTable;

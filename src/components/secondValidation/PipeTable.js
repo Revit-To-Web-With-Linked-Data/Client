@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ValidationInstance from './ValidationInstance';
+import ValidationInstance from '../ValidationInstance';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
-
 
 const PipeTable = () => {
     const [validationReport, setValidationReport] = useState([]);
@@ -19,16 +18,15 @@ const PipeTable = () => {
 
     const getValidationReport = () => {
         return instance
-            .get('/validationGraph')
+            .get('/hydraulicCalculation')
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                setValidationReport(response.data.shaclObject.Pipe)
+                setValidationReport(response.data.shaclObject.Pipe);
             })
             .catch((err) => {
                 return err.response;
             });
     };
-
 
     return (
         <div>
@@ -49,7 +47,6 @@ const PipeTable = () => {
                     ))}
                 </tbody>
             </Table>
-        
         </div>
     );
 };

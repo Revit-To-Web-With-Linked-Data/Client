@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ValidationInstance from './ValidationInstance';
+import ValidationInstance from '../ValidationInstance';
 import Table from 'react-bootstrap/Table';
 
-const TeeTable = () => {
+const FanTable = () => {
     const [validationReport, setValidationReport] = useState([]);
     // Force credentials to every Axios request
     const instance = axios.create({
@@ -17,10 +17,10 @@ const TeeTable = () => {
 
     const getValidationReport = () => {
         return instance
-            .get('/validationGraph')
+            .get('/hydraulicCalculation')
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                setValidationReport(response.data.shaclObject.Tee)
+                setValidationReport(response.data.shaclObject.Fan);
             })
             .catch((err) => {
                 return err.response;
@@ -50,4 +50,4 @@ const TeeTable = () => {
     );
 };
 
-export default TeeTable;
+export default FanTable;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ValidationInstance from './ValidationInstance';
+import ValidationInstance from '../ValidationInstance';
 import Table from 'react-bootstrap/Table';
 
 const SpaceHeaterTable = () => {
@@ -20,7 +20,7 @@ const SpaceHeaterTable = () => {
             .get('/validationGraph')
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                setValidationReport(response.data.shaclObject.SpaceHeater)
+                setValidationReport(response.data.shaclObject.SpaceHeater);
             })
             .catch((err) => {
                 return err.response;

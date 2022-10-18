@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ValidationInstance from './ValidationInstance';
+import ValidationInstance from '../ValidationInstance';
 import Table from 'react-bootstrap/Table';
 
-const AirTerminalTable = () => {
+const HeatExchangerTable = () => {
     const [validationReport, setValidationReport] = useState([]);
     // Force credentials to every Axios request
     const instance = axios.create({
@@ -17,10 +17,10 @@ const AirTerminalTable = () => {
 
     const getValidationReport = () => {
         return instance
-            .get('/validationGraph')
+            .get('/hydraulicCalculation')
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                setValidationReport(response.data.shaclObject.AirTerminal)
+                setValidationReport(response.data.shaclObject.HeatExchanger);
             })
             .catch((err) => {
                 return err.response;
@@ -50,4 +50,4 @@ const AirTerminalTable = () => {
     );
 };
 
-export default AirTerminalTable;
+export default HeatExchangerTable;

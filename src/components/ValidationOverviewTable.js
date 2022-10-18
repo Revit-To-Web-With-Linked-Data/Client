@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ValidationOverviewInstance from './ValidationOverviewInstance';
+import ValidationOverviewInstance1 from './firstValidation/ValidationOverviewInstance';
+import ValidationOverviewInstance2 from './secondValidation/ValidationOverviewInstance';
+
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import FlowMovingDeviceTable from './FlowMovingDeviceTable';
 const ValidationTable = () => {
     const [validationReport, setValidationReport] = useState([]);
+    const [hydraulicReport, setHydraulicReport] = useState([]);
     const [buttonClickable, setbuttonClickable] = useState(true);
+    const [hydraulicClickable, sethydraulicClickable] = useState(true);
     const [flowMovingDevice, setFlowMovingDevice] = useState([]);
 
     // Force credentials to every Axios request
@@ -16,7 +20,7 @@ const ValidationTable = () => {
     });
 
     useEffect(() => {
-        getValidationReport();
+        // getValidationReport();
     }, []);
 
     const getValidationReport = () => {
@@ -27,10 +31,10 @@ const ValidationTable = () => {
                 setValidationReport(response.data.result);
                 console.log(response.data.result[response.data.result.length - 1].amount);
                 if (response.data.result[response.data.result.length - 1].amount == 0) {
-                    setbuttonClickable(false);
+                    sethydraulicClickable(false);
                 }
                 if (response.data.result[response.data.result.length - 1].amount > 0) {
-                    setbuttonClickable(true);
+                    sethydraulicClickable(true);
                 }
             })
             .catch((err) => {
@@ -43,13 +47,13 @@ const ValidationTable = () => {
             .get('/hydraulicCalculation')
             .then((response) => {
                 console.log(JSON.stringify(response.data),"YYYYYYYYYYY");
-                setValidationReport(response.data.result);
+                setHydraulicReport(response.data.result);
                 console.log(response.data.result[response.data.result.length - 1].amount);
                 if (response.data.result[response.data.result.length - 1].amount == 0) {
-                    setbuttonClickable(false);
+                    buttonClickable(false);
                 }
                 if (response.data.result[response.data.result.length - 1].amount > 0) {
-                    setbuttonClickable(true);
+                    buttonClickable(true);
                 }
             })
             .catch((err) => {
@@ -109,9 +113,33 @@ const ValidationTable = () => {
             { type: 'Total', amount: 0 },
         ]);
 
-        setbuttonClickable(false);
+        sethydraulicClickable(false);
     };
 
+
+    const clearViolationsSecondIteration = () => {
+        setHydraulicReport([
+            { type: 'HeatExchanger', amount: 0 },
+            { type: 'Transition', amount: 0 },
+            { type: 'Tee', amount: 0 },
+            { type: 'Elbow', amount: 0 },
+            { type: 'Pipe', amount: 0 },
+            { type: 'Duct', amount: 0 },
+            { type: 'Pump', amount: 0 },
+            { type: 'Fan', amount: 0 },
+            { type: 'SpaceHeater', amount: 0 },
+            { type: 'AirTerminal', amount: 0 },
+            { type: 'Valve', amount: 0 },
+            { type: 'Damper', amount: 0 },
+            { type: 'Port', amount: 0 },
+            { type: 'Flow', amount: 0 },
+            { type: 'Property', amount: 0 },
+            { type: 'System', amount: 0 },
+            { type: 'Total', amount: 0 },
+        ]);
+
+        setbuttonClickable(false);
+    };
     return (
         <div>
             <div
@@ -146,14 +174,52 @@ const ValidationTable = () => {
                     </thead>
                     <tbody>
                         {validationReport.map((todo, idx) => (
-                            <ValidationOverviewInstance key={idx} validationReportItem={todo} />
+                            <ValidationOverviewInstance1 key={idx} validationReportItem={todo} />
                         ))}
                     </tbody>
                 </Table>
                 <div onClick={clearModel}>Clear model</div>
                 <div onClick={clearViolations}>Solve all violations</div>
-                <div onClick={hydraulicCalculation}>Perform hydraulicCalculation</div>
+
+                <div
+                    style={{
+                        paddingTop: '20px',
+                        paddingLeft: '10px',
+                        paddingBottom: '10px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Button variant='secondary' onClick={hydraulicCalculation} disabled={hydraulicClickable}>
+                        Hydraulic Calc
+                    </Button>
+                </div>
+
+                <Table
+                    striped
+                    bordered
+                    hover
+                    width='200'
+                    tdStyle={{ whiteSpace: 'normal', wordWrap: 'break-word' }}
+                    size='sm'
+                    onClick={onRowClick}
+                >
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Amount [-]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {hydraulicReport.map((todo, idx) => (
+                            <ValidationOverviewInstance2 key={idx} validationReportItem={todo} />
+                        ))}
+                    </tbody>
+                </Table>
+                <div onClick={clearViolationsSecondIteration}>Solve all violations</div>
             </div>
+
             <div>
                 <div
                     style={{

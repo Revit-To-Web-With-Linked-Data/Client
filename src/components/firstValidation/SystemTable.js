@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ValidationInstance from './ValidationInstance';
+import ValidationInstance from '../ValidationInstance';
 import Table from 'react-bootstrap/Table';
 
-const PumpTable = () => {
+const SystemTable = () => {
     const [validationReport, setValidationReport] = useState([]);
     // Force credentials to every Axios request
     const instance = axios.create({
@@ -20,7 +20,7 @@ const PumpTable = () => {
             .get('/validationGraph')
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                setValidationReport(response.data.shaclObject.Pump)
+                setValidationReport(response.data.shaclObject.System);
             })
             .catch((err) => {
                 return err.response;
@@ -50,4 +50,4 @@ const PumpTable = () => {
     );
 };
 
-export default PumpTable;
+export default SystemTable;
