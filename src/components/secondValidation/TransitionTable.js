@@ -12,12 +12,12 @@ const TransitionTable = () => {
     });
 
     useEffect(() => {
-        // getValidationReport();
+        getValidationReport();
     }, []);
 
     const getValidationReport = () => {
         return instance
-            .get('/hydraulicCalculation')
+            .get('/hydraulicValidation')
             .then((response) => {
                 console.log(JSON.stringify(response.data));
                 setValidationReport(response.data.shaclObject.Transition);

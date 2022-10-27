@@ -17,7 +17,7 @@ const FlowTable = () => {
 
     const getValidationReport = () => {
         return instance
-            .get('/hydraulicCalculation')
+            .get('/hydraulicValidation')
             .then((response) => {
                 console.log(JSON.stringify(response.data));
                 setValidationReport(response.data.shaclObject.Flow);

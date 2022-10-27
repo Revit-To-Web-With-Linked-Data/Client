@@ -27,7 +27,7 @@ const ValidationTable = () => {
         return instance
             .get('/validationOverviewGraph')
             .then((response) => {
-                console.log(JSON.stringify(response.data.result), "XXXXXXXX");
+                console.log(JSON.stringify(response.data.result), 'YYYYYYYYYYYY');
                 setValidationReport(response.data.result);
                 console.log(response.data.result[response.data.result.length - 1].amount);
                 if (response.data.result[response.data.result.length - 1].amount == 0) {
@@ -37,7 +37,7 @@ const ValidationTable = () => {
                     sethydraulicClickable(true);
                 }
             })
-            .catch((err) => {
+            .catch((err) => {   
                 return err.response;
             });
     };
@@ -46,14 +46,14 @@ const ValidationTable = () => {
         return instance
             .get('/hydraulicCalculation')
             .then((response) => {
-                console.log(JSON.stringify(response.data),"YYYYYYYYYYY");
+                console.log(JSON.stringify(response.data.result), 'YYYYYYYYYYY');
                 setHydraulicReport(response.data.result);
                 console.log(response.data.result[response.data.result.length - 1].amount);
                 if (response.data.result[response.data.result.length - 1].amount == 0) {
-                    buttonClickable(false);
+                    setbuttonClickable(false);
                 }
                 if (response.data.result[response.data.result.length - 1].amount > 0) {
-                    buttonClickable(true);
+                    setbuttonClickable(true);
                 }
             })
             .catch((err) => {
@@ -93,52 +93,22 @@ const ValidationTable = () => {
     };
 
     const clearViolations = () => {
-        setValidationReport([
-            { type: 'HeatExchanger', amount: 0 },
-            { type: 'Transition', amount: 0 },
-            { type: 'Tee', amount: 0 },
-            { type: 'Elbow', amount: 0 },
-            { type: 'Pipe', amount: 0 },
-            { type: 'Duct', amount: 0 },
-            { type: 'Pump', amount: 0 },
-            { type: 'Fan', amount: 0 },
-            { type: 'SpaceHeater', amount: 0 },
-            { type: 'AirTerminal', amount: 0 },
-            { type: 'Valve', amount: 0 },
-            { type: 'Damper', amount: 0 },
-            { type: 'Port', amount: 0 },
-            { type: 'Flow', amount: 0 },
-            { type: 'Property', amount: 0 },
-            { type: 'System', amount: 0 },
-            { type: 'Total', amount: 0 },
-        ]);
-
-        sethydraulicClickable(false);
+        return instance
+            .post('/solveFirstValidation')
+            .then((response) => {})
+            .catch((err) => {
+                return err.response;
+            });
     };
-
-
     const clearViolationsSecondIteration = () => {
-        setHydraulicReport([
-            { type: 'HeatExchanger', amount: 0 },
-            { type: 'Transition', amount: 0 },
-            { type: 'Tee', amount: 0 },
-            { type: 'Elbow', amount: 0 },
-            { type: 'Pipe', amount: 0 },
-            { type: 'Duct', amount: 0 },
-            { type: 'Pump', amount: 0 },
-            { type: 'Fan', amount: 0 },
-            { type: 'SpaceHeater', amount: 0 },
-            { type: 'AirTerminal', amount: 0 },
-            { type: 'Valve', amount: 0 },
-            { type: 'Damper', amount: 0 },
-            { type: 'Port', amount: 0 },
-            { type: 'Flow', amount: 0 },
-            { type: 'Property', amount: 0 },
-            { type: 'System', amount: 0 },
-            { type: 'Total', amount: 0 },
-        ]);
+        return instance
+            .post('/solveSecondValidation')
+            .then((response) => {
 
-        setbuttonClickable(false);
+            })
+            .catch((err) => {
+                return err.response;
+            });
     };
     return (
         <div>
