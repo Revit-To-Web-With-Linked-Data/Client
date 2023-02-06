@@ -12,7 +12,7 @@ const TransitionTable = () => {
     });
 
     useEffect(() => {
-        // getValidationReport();
+        getValidationReport();
     }, []);
 
     const getValidationReport = () => {

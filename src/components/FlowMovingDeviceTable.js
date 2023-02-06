@@ -10,13 +10,8 @@ const FlowMovingDeviceTable = (props) => {
         baseURL: 'http://localhost:3500',
     });
 
-    console.log(props)
-    useEffect(() => {
-
-    }, []);
-
- 
-
+    console.log(props);
+    useEffect(() => {}, []);
 
     return (
         <Table striped bordered hover size='sm'>
