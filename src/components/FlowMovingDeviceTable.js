@@ -19,8 +19,8 @@ const FlowMovingDeviceTable = (props) => {
                 <tr>
                     <th>Type</th>
                     <th>ID</th>
-                    <th>Flow rate</th>
-                    <th>Head</th>
+                    <th>Flow rate [L/s]</th>
+                    <th>Pressure Drop [Pascal]</th>
                 </tr>
             </thead>
             <tbody>
